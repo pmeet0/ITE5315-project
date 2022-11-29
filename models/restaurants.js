@@ -7,13 +7,18 @@ RestaurantsSchema = new Schema({
     _id: String,
   address: {
     building: String,
-    coord: Array,
+    coord: [{lat: Number, lon: Number}],
     street: String,
     zipcode: String,
   },
   borough: String,
   cuisine: String,
-  grades: Array,
+  grades:
+  [{
+    date: String,
+    grade: String,
+    score: Number,
+}],
   name: String,
   restaurant_id: String
 });

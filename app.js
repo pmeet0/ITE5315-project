@@ -42,10 +42,12 @@ function initialize(conn) {
     });
 }
 
+
 app.post('/api/restaurants', function (req, res) {
     if (!req.body) return res.status(400).render('error', { title: "400", message: "Bad Request" })
 
     console.log(req.body);
+    
     let address_data = {
         building: req.body.building,
         coord: [req.body.lat, req.body.lon],
@@ -72,6 +74,7 @@ app.post('/api/restaurants', function (req, res) {
         restaurant_id: restaurant_id_data
     }
 
+   // db.addNewRestaurant
     restaurant.create(data, function (err, restaurant) {
         if (err)
 
@@ -91,6 +94,7 @@ app.get('/api/restaurants', function (req, res) {
         restaurant.find({ borough: boroug }, null, { limit: perPage, skip: (page - 1) * perPage }, function (err, restaurant) {
             if (err) {
                 console.log(err);
+                res.status(400).render('error', { title: "400", message: err })
             }
             else {
                 res.send(restaurant)
@@ -101,6 +105,7 @@ app.get('/api/restaurants', function (req, res) {
         restaurant.find(null, null, { limit: perPage, skip: (page - 1) * perPage }, function (err, docs) {
             if (err) {
                 console.log(err);
+                res.status(400).render('error', { title: "400", message: err })
             }
             else {
                 res.send(docs)
@@ -119,7 +124,6 @@ app.get('/api/restaurants/:restaurant_id', function (req, res) {
 
         res.json(restaurant);
     });
-
 });
 
 
@@ -166,7 +170,6 @@ app.put('/api/restaurants/:restaurant_id', function (req, res) {
         restaurant_id: restaurant_id_data
     }
 
-    // save the user
     restaurant.findByIdAndUpdate(id, data, function (err, restaurant) {
         if (err)
             throw err;
@@ -184,6 +187,12 @@ app.get('/api/restaurants_data', async function (req, res) {
         var restaurant_data = JSON.stringify(restaurant);
         res.render('data', { data: JSON.parse(restaurant_data) });
     });
+});
+
+//route for wrong path
+app.get('*', function (req, res) {                   
+    //Rendering error handebar and pass value for handlebars       
+    res.render('error', { title: 'Error', message: 'Wrong Route' });        
 });
 
 initialize("Connected successfully");
