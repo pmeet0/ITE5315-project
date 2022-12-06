@@ -80,7 +80,12 @@ app.get("/login", (req, res) => {
 // Login For authorize user only
 app.post("/login", (req, res) => {
 
+    const username = req.body.username;
     const password = req.body.password;
+    console.log(username);
+    console.log(process.env.USERNAME)
+    
+    if (username === process.env.USERNAME) {
 
     bcrypt.compare(password, hash).then((result) => {
 
@@ -90,20 +95,26 @@ app.post("/login", (req, res) => {
                 { user_id: 1 },
                 process.env.SECRETKEY,
                 {
-                    expiresIn: "5m",
+                    expiresIn: "4m",
                 }
             );
             //saving the token
             token = token1;
             console.log(token);
             // If login is Success
-            res.send("Success: Now you have full access of website");
+            res.render('home', {message: "Sucessfully Login!"});
         }
+    
 
         else {
             res.status(404).render('error', { message: "Invalid Credentials" });
         }
+    
     })
+}
+else{
+    res.status(404).render('error', { message: "Invalid UserName" });
+}
 });
 
 app.get('/posts', verifyToken, (req, res) => {
@@ -165,14 +176,14 @@ app.get('/filter/restaurants', (req, res) => {
 })
 
 
-app.get('/api/restaurants', (req, res) => {
+app.get('/api/restaurants', async (req, res) => {
 
     let page = req.query.page;
     let perPage = req.query.perPage;
     let boroug = req.query.borough;
 
     if (boroug) {
-        restaurant.find({ borough: boroug }, null, { limit: perPage, skip: (page - 1) * perPage }, function (err, restaurant) {
+        await restaurant.find({ borough: boroug }, null, { limit: perPage, skip: (page - 1) * perPage }, function (err, restaurant) {
             if (err) {
                 console.log(err);
                 res.status(400).render('error', { title: "404", message: err })
@@ -286,7 +297,7 @@ app.get('/', function (req, res) {
 
 app.get('/logout', function (req, res) {
     token = null;
-    res.send("Logout Successfully")
+    res.render('home', {message: "Sucessfully Logout!"});
 });
 
 //route for wrong path
