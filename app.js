@@ -29,17 +29,17 @@ app.engine(".hbs", HBS.engine);
 app.set('view engine', '.hbs')
 
 
-//Initializing Module
-function initialize(conn) {
-    mongoose.connect(process.env.mongo_string, function (err) {
-        if (err == null)
-            console.log(conn);
-        else {
-            console.error(err);
-            process.exit();
-        }
-    });
-}
+// //Initializing Module
+// function initialize(conn) {
+//     mongoose.connect(process.env.mongo_string, function (err) {
+//         if (err == null)
+//             console.log(conn);
+//         else {
+//             console.error(err);
+//             process.exit();
+//         }
+//     });
+// }
 
 var token = null;
 
@@ -295,6 +295,6 @@ app.get('*', function (req, res) {
     res.render('error', { title: 'Error', message: '404 Wrong Route' });
 });
 
-initialize("Connected successfully");
+//initialize("Connected successfully");
 app.listen(port);
 console.log(`App is listening on port ${port}`);
