@@ -1,7 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var app = express();
-//var database = require('./config/database');
+var database = require('./config/database');
 var bodyParser = require('body-parser');         // pull information from HTML POST (express4)
 require('dotenv').config()
 
@@ -9,8 +9,9 @@ var port = process.env.PORT || 8000;
 app.use(bodyParser.urlencoded({ 'extended': 'true' }));            // parse application/x-www-form-urlencoded
 app.use(bodyParser.json());                                     // parse application/json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
+var mongo = process.env.mongo_string;
 
-//var url = mongoose.connect(database.url);
+mongoose.connect(mongo);
 var restaurant = require('./models/restaurants');
 const exphbs = require('express-handlebars');
 const fs = require('fs');
@@ -29,28 +30,18 @@ app.engine(".hbs", HBS.engine);
 app.set('view engine', '.hbs')
 
 
-// function initialize(conn) {
-//     mongoose.connect('mongodb+srv://'+process.env.Name+':'+process.env.password+'+@cluster0.7gnt9rw.mongodb.net/sample_restaurants'), function (err) {
+// //Initializing Module
+// function initialize(err) {
 //         if (err == null)
-//              console.log(conn);
+//         {
+//         mongoose.connect(process.env.mongo_string);
+//             console.log(conn);
+//         }
 //         else {
 //             console.error(err);
 //             process.exit();
 //         }
-//     };
-
-// //Initializing Module
-function initialize(err) {
-        if (err == null)
-        {
-        mongoose.connect(process.env.mongo_string);
-            console.log(conn);
-        }
-        else {
-            console.error(err);
-            process.exit();
-        }
-}
+// }
 
 var token = null;
 
@@ -316,5 +307,5 @@ app.get('*', function (req, res) {
 
 
 app.listen(port);
-initialize("Connected successfully");
+//initialize("Connected successfully");
 console.log(`App is listening on port ${port}`);
