@@ -1,7 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var app = express();
-//var database = require('./config/database');
+var database = require('./config/database');
 var bodyParser = require('body-parser');         // pull information from HTML POST (express4)
 require('dotenv').config()
 
@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ 'extended': 'true' }));            // parse appl
 app.use(bodyParser.json());                                     // parse application/json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 
-//var url = mongoose.connect(database.url);
+var url = mongoose.connect(database.url);
 var restaurant = require('./models/restaurants');
 const exphbs = require('express-handlebars');
 const fs = require('fs');
