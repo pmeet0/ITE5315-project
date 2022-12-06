@@ -11,10 +11,20 @@
     <tr>
         <td>{{this.restaurant_id}}</td>
         <td>{{this.name}}</td>
-        <td>Building: {{this.address.building}},</br> Street: {{this.address.street}},</br> Zipcode: {{this.address.zipcode}}</td>
+        <td>Building: {{this.address.building}},</br> Street: {{this.address.street}},</br> Zipcode:
+            {{this.address.zipcode}}</td>
         <td>{{this.borough}}</td>
         <td>{{this.grades.0.grade}}</td>
         <td>{{this.cuisine}}</td>
     </tr>
     {{/each}}
 </table>
+
+<form method="GET" action="/api/filter/restaurants">
+    <h1>Filter</h1>
+    <input type="text" name="page" placeholder="Enter Page"> <br /> <br />
+    <input type="text" name="perPage" placeholder="Per Page"> <br /> <br />
+    <input type="text" name="borough" placeholder="Borough"> <br /> <br />
+    <input style="display: block" type="submit">
+</form>
+</form>

@@ -2,23 +2,25 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-
 RestaurantsSchema = new Schema({
-    _id: String,
+  _id: String,
   address: {
     building: String,
-    coord: [{lat: Number, lon: Number}],
+    coord: {
+      0: Number,
+      1: Number
+    },
     street: String,
     zipcode: String,
   },
   borough: String,
   cuisine: String,
   grades:
-  [{
-    date: String,
-    grade: String,
-    score: Number,
-}],
+    [{
+      date: String,
+      grade: String,
+      score: Number,
+    }],
   name: String,
   restaurant_id: String
 });
